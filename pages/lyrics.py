@@ -1,4 +1,5 @@
 import streamlit as st
+import data
 
 
 def page():

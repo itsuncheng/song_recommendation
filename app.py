@@ -1,12 +1,13 @@
 import streamlit as st
-import pandas as pd
+st.set_page_config(page_title='Covid-19 Dashboard', layout="wide")
+import data
+data.load_data()
 from pages import popularity, lyrics, audio
 
 st.sidebar.title("Explore Your Music Taste")
 st.sidebar.write("Intro... ")
-st.sidebar.write("Please choose the category you want to explore:")
 option = st.sidebar.selectbox(
-    'Select the info to check about',
+    'Please choose the category you want to explore:',
     ('Popularity', 'Song Lyrics', 'Audio Features'))
 
 if option == "Popularity":
