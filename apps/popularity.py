@@ -33,6 +33,7 @@ def app():
 
 
     attributeTime = df[[option, 'popularity', 'release_year']]
+    yearArr = pd.unique(attributeTime['release_year'])
     attributeTimeAll = attributeTime.groupby('release_year')
     # df2 = pd.DataFrame( columns=[option, 'popularity', 'release_year'])
     df2 = pd.DataFrame()
@@ -41,8 +42,15 @@ def app():
         df_group = df_group.groupby(option).mean().reset_index()
         # df_group
         df2 = df2.append(df_group,ignore_index = True)
-    chart = alt.Chart(df2).mark_circle( opacity=0.2).encode(
-        x='release_year:N', y='popularity', color=option,size = option,tooltip=[option, 'popularity', 'release_year']
+        
+    # x-axis label to dense
+    chart = alt.Chart(df2).mark_circle(color = 'red', opacity=0.55).encode(
+        x='release_year:N', y='popularity', color=option,tooltip=[option, 'popularity', 'release_year']
+        ).properties(title="Change in popularity with respect to " + option + " by release years")
+    st.altair_chart(chart, use_container_width=True)
+    # Data too sparse
+    chart = alt.Chart(df2).mark_circle(color = 'red', opacity=0.55).encode(
+        x=alt.X('release_year:Q',axis=alt.Axis(tickCount=len(yearArr)/10, grid=False),scale=alt.Scale(zero=False)), y='popularity', color=option,tooltip=[option, 'popularity', 'release_year']
         ).properties(title="Change in popularity with respect to " + option + " by release years")
     st.altair_chart(chart, use_container_width=True)
 
@@ -50,7 +58,6 @@ def app():
 
 
     attributeTime = attributeTime.sort_values(by=['release_year'], ascending = False)
-    yearArr = pd.unique(attributeTime['release_year'])
     yearArr = np.append(yearArr, 'ALL years')
     # yearArr[0].type()
     options = st.multiselect(
