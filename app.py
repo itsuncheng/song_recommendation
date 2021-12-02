@@ -1,27 +1,22 @@
 import streamlit as st
-from multiapp import MultiApp
-from reference_apps import home, data, model  # import your app modules here
-from apps import popularity, lyrics, audio
+st.set_page_config(page_title='Covid-19 Dashboard', layout="wide")
+import data
+data.load_data()
+from pages import popularity, lyrics, audio
 
-app = MultiApp()
+st.sidebar.title("Explore Your Music Taste")
+st.sidebar.write("Intro... ")
+option = st.sidebar.selectbox(
+    'Please choose the category you want to explore:',
+    ('Popularity', 'Song Lyrics', 'Audio Features'))
 
-st.markdown("""
-# Multi-Page App
+if option == "Popularity":
+    popularity.page()
 
-This multi-page app is using the [streamlit-multiapps](https://github.com/upraneelnihar/streamlit-multiapps) framework developed by [Praneel Nihar](https://medium.com/@u.praneel.nihar). Also check out his [Medium article](https://medium.com/@u.praneel.nihar/building-multi-page-web-app-using-streamlit-7a40d55fa5b4).
 
-""")
+elif option == "Song Lyrics":
+    lyrics.page()
 
-# Add all your application here
-# Reference apps
-app.add_app("Home", home.app)
-app.add_app("Data", data.app)
-app.add_app("Model", model.app)
 
-# Our apps
-app.add_app("Popularity", popularity.app)
-app.add_app("Lyrics", lyrics.app)
-app.add_app("Audio Features", audio.app)
-
-# Run our app
-app.run()
+elif option == "Audio Features":
+    audio.page()
