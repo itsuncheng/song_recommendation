@@ -28,6 +28,10 @@ def load_genre_audio():
     with open('data/audio/rock.npy', 'rb') as f:
         rock = np.load(f)
 
+def load_track_artist_album():
+    global track_artist_album_df
+    track_artist_album_df = pd.read_csv("data/trackArtistAlbum.csv")
+
 # @st.cache(allow_output_mutation=True)
 def load_data():
     data_dir = "data/SpotGenTrack/Data Sources/"
@@ -40,3 +44,4 @@ def load_data():
     tracks_data = pd.read_csv(data_dir+"spotify_tracks.csv")
 
     load_genre_audio()
+    load_track_artist_album()

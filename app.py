@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title='Covid-19 Dashboard', layout="wide")
+st.set_page_config(page_title='Explore Your Music Taste', layout="wide")
 import data
 data.load_data()
 from pages import popularity, lyrics, audio
