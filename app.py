@@ -2,13 +2,13 @@ import streamlit as st
 st.set_page_config(page_title='Explore Your Music Taste', layout="wide")
 import data
 data.load_data()
-from pages import popularity, lyrics, audio
+from pages import popularity, lyrics, audio, recommendation
 
 st.sidebar.title("Explore Your Music Taste")
 st.sidebar.write("Intro... ")
 option = st.sidebar.selectbox(
     'Please choose the category you want to explore:',
-    ('Popularity', 'Song Lyrics', 'Audio Features'))
+    ('Popularity', 'Song Lyrics', 'Audio Features', 'Song Recommendation'))
 
 if option == "Popularity":
     popularity.page()
@@ -20,3 +20,6 @@ elif option == "Song Lyrics":
 
 elif option == "Audio Features":
     audio.page()
+
+elif option == "Song Recommendation":
+    recommendation.page()

@@ -1,38 +1,34 @@
 ## File for data loading purposes
 ## Please load all of the required data files here
-
+import streamlit as st
 import numpy as np
 import pandas as pd
 
+@st.cache(allow_output_mutation=True)
 def load_genre_audio():
-    global electronic
-    global hippop
-    global jazz
-    global kpop
-    global pop
-    global randb
-    global rock
 
-    with open('data/audio/electronic.npy', 'rb') as f:
-        electronic = np.load(f)
-    with open('data/audio/hippop.npy', 'rb') as f:
-        hippop = np.load(f)
-    with open('data/audio/jazz.npy', 'rb') as f:
-        jazz = np.load(f)
-    with open('data/audio/kpop.npy', 'rb') as f:
-        kpop = np.load(f)
-    with open('data/audio/pop.npy', 'rb') as f:
-        pop = np.load(f)
-    with open('data/audio/randb.npy', 'rb') as f:
-        randb = np.load(f)
-    with open('data/audio/rock.npy', 'rb') as f:
-        rock = np.load(f)
+    global exploded_track_df
+    df = pd.read_csv("data/filtered_track_df.csv")
+    df['genres'] = df.genres.apply(lambda x: [i[1:-1] for i in str(x)[1:-1].split(", ")])
+    exploded_track_df = df.explode("genres")
 
+    genres = ['dance pop', 'electronic', 'electropop', 'hip hop', 'jazz', 'k-pop', 'latin', 'pop', 'pop rap', 'r&b', 'rock']
+    audio_feats = ['acousticness', 'danceability', 'duration_ms',
+                    'energy', 'instrumentalness', 'liveness',
+                    'loudness', 'speechiness', 'tempo', 'valence']
+
+    global genres2audio
+    genres2audio = {}
+    for genre in genres:
+        genres2audio[genre] = exploded_track_df[exploded_track_df["genres"]==genre][audio_feats].to_numpy()
+
+
+@st.cache(allow_output_mutation=True)
 def load_track_artist_album():
     global track_artist_album_df
     track_artist_album_df = pd.read_csv("data/trackArtistAlbum.csv")
 
-# @st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def load_data():
     data_dir = "data/SpotGenTrack/Data Sources/"
 

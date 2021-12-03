@@ -5,7 +5,8 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objs as go
 
-genre_names = ['Electronic', 'Hippop', 'Jazz', 'Kpop', 'Pop', 'R&B', 'Rock']
+genre_names = ['Anime', 'Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
+
 audio_feat_names = ['Acousticness', 'Danceability', 'Duration_ms',
                 'Energy', 'Instrumentalness', 'Liveness',
                 'Loudness', 'Speechiness', 'Tempo', 'Valence']
@@ -17,20 +18,9 @@ def plot_genre_distribution(selected_genres):
     showLegend = True
     for n, (i, j) in enumerate(combined):
         hist_data = []
-        if "Electronic" in set(selected_genres):
-            hist_data.append(data.electronic[:, n])
-        if "Hippop" in set(selected_genres):
-            hist_data.append(data.hippop[:, n])
-        if "Jazz" in set(selected_genres):
-            hist_data.append(data.jazz[:, n])
-        if "Kpop" in set(selected_genres):
-            hist_data.append(data.kpop[:, n])
-        if "Pop" in set(selected_genres):
-            hist_data.append(data.pop[:, n])
-        if "R&B" in set(selected_genres):
-            hist_data.append(data.randb[:, n])
-        if "Rock" in set(selected_genres):
-            hist_data.append(data.rock[:, n])
+        for genre in selected_genres:
+            genre = genre.lower()
+            hist_data.append(data.genres2audio[genre][:, n])
         sub_fig = ff.create_distplot(hist_data, selected_genres, show_hist=False, show_rug=False)
         if n == 1:
             showLegend = False
@@ -56,7 +46,7 @@ def page():
     selected_genres = st.multiselect(
         'Select some genres',
         genre_names,
-        ["Electronic", "Hippop", "Kpop", "Pop"])
+        ["Electronic", "Hip Hop", "Jazz", "K-pop", "Pop"])
 
     plot_genre_distribution(selected_genres)
 
