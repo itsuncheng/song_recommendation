@@ -8,7 +8,8 @@ st.sidebar.title("Explore Your Music Taste")
 st.sidebar.write("Intro... ")
 option = st.sidebar.selectbox(
     'Please choose the category you want to explore:',
-    ('Overview', 'Dataset', 'Popularity', 'Song Lyrics', 'Audio Features', 'Song Recommendation'))
+    ('Overview', 'Dataset', 'Popularity Analysis', 'Song Lyrics Analysis', 'Audio Features Analysis', \
+    'Song Recommendation'))
 
 if option == "Overview":
     overview.page()
@@ -16,13 +17,13 @@ if option == "Overview":
 elif option == "Dataset":
     dataset.page()
 
-elif option == "Popularity":
+elif option == "Popularity Analysis":
     popularity.page()
 
-elif option == "Song Lyrics":
+elif option == "Song Lyrics Analysis":
     lyrics.page()
 
-elif option == "Audio Features":
+elif option == "Audio Features Analysis":
     audio.page()
 
 elif option == "Song Recommendation":

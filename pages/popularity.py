@@ -20,8 +20,8 @@ import seaborn as sns
 
 def page():
     # TODO: Popularity Page
-    st.title('What factors effect the popularity of a track?')
-    st.write('In this dashboard we will analyze differenct factors as well as their corresponding change in popylarity. We focus on time, audio features, and artists.')
+    st.title('What factors affect the popularity of a track?')
+    st.write('In this dashboard we will analyze differenct factors as well as their corresponding change in popularity. We focus on time, audio features, and artists.')
 
     # df = pd.read_csv("../data/trackArtistAlbum.csv")
     df = data.track_artist_album_df
