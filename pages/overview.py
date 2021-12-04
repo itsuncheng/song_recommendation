@@ -20,7 +20,7 @@ def page():
     audio features? What music genres do you like and why?")
 
     st.write("As data scientists and music lovers, our group is excited to perform some analysis over music. \
-    We would like to use [the Spotify and Genius Track Dataset](https://www.kaggle.com/saurabhshahane/spotgen-music-dataset) \
+    We would like to use the [Spotify and Genius Track Dataset](https://www.kaggle.com/saurabhshahane/spotgen-music-dataset) \
     publicly online to answer several reseach questions related to different dimensions of music data.")
 
     st.subheader("Popularity Analysis")
