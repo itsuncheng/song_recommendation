@@ -11,9 +11,16 @@ import seaborn as sns
 
 def page():
     # TODO: Popularity Page
-    st.title('What factors affect the popularity of a track?')
-    st.write('In this dashboard we will analyze differenct factors as well as their corresponding change in popularity. We focus on time, audio features, and artists.')
-
+    st.title("What's Popping in the World and Why?")
+    st.write("As music becomes integral in people's life, \
+    the music industry has grown to an exceptional level to satify people's demand. As more and more music tracks are \
+    being produced, some tracks are more popular than others by comparing the number of views. \
+    For example, the track \"Love Yourself\" by Justin Bieber is much more popular than the track \
+    \"New York City\" by Owl City. However, have you ever wondered what factors affect this difference in \
+    popularity? In this section, we would like to investigate the factors that affect a track's popularity. \
+    In this dashboard we present different factors as well as their corresponding change with popularity. We \
+    focus on time, audio features, and artists.")
+    
     # df = pd.read_csv("../data/trackArtistAlbum.csv")
     df = data.track_artist_album_df
 

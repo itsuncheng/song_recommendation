@@ -6,6 +6,8 @@ import numpy as np
 from sklearn.neighbors import NearestNeighbors
 import pandas as pd
 
+
+
 genre_names = ['Anime', 'Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 audio_feats = ["acousticness", "danceability", "energy", "instrumentalness", "valence", "tempo"]
 
@@ -26,15 +28,26 @@ def n_neighbors_uri_audio(genre, start_year, end_year, test_feat):
     return uris, audios
 
 def page():
-    title = "Recommend New Songs Catered for You"
+    title = "Time to Customize Your Playlist!"
     st.title(title)
 
+    st.write("Welcome to the most exciting part! After analyzing the music \
+    genres through different dimensions, we would like to see what are the actual songs recommended by adjusting \
+    different features we have investigated. This is the place, where you can verify whether the audio features \
+    correctly reflect the song by listening to the track directly! For instance, you can switch to the genre \
+    k-pop and increase danceability to maximum while keeping others constant and check whether the recommended \
+    song indeed prompts you to dance and party!")
+    st.markdown("##")
+
     with st.container():
-        col1, col2 = st.columns(2)
-        with col1:
-            genre = st.selectbox(
-                'Choose your genre',
+        col1, col2,col3,col4 = st.columns((2,0.5,0.5,0.5))
+        with col3:
+            st.markdown("***Choose your genre:***")
+            genre = st.radio(
+                "",
                 genre_names, index=genre_names.index("Pop"))
+        with col1:
+            st.markdown("***Choose features to customize:***")
             start_year, end_year = st.slider(
                 'Select the year range',
                 1990, 2019, (2015, 2019)
@@ -100,6 +113,7 @@ def page():
                             track,
                             height=400,
                         )
+            
                     with col2:
                         df = pd.DataFrame(dict(
                             r=audio[:5],

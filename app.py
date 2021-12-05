@@ -1,17 +1,20 @@
 import streamlit as st
-st.set_page_config(page_title='Explore Your Music Taste', layout="wide")
+st.set_page_config(page_title="Explore Your Music Taste", layout="wide")
 import data
 data.load_data()
 from pages import overview, dataset, popularity, lyrics, audio, recommendation
 
-st.sidebar.title("Explore Your Music Taste")
-st.sidebar.write("Intro... ")
-option = st.sidebar.selectbox(
+
+st.sidebar.title("**Welcome to Your Music Discovery Journey!**")
+
+st.markdown('##')
+
+option = st.sidebar.radio(
     'Please choose the category you want to explore:',
-    ('Overview', 'Dataset', 'Popularity Analysis', 'Song Lyrics Analysis', 'Audio Features Analysis', \
+    ('About', 'Dataset', 'Popularity Analysis', 'Song Lyrics Analysis', 'Audio Features Analysis', \
     'Song Recommendation'))
 
-if option == "Overview":
+if option == 'About':
     overview.page()
 
 elif option == "Dataset":
