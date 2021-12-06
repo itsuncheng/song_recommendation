@@ -9,6 +9,7 @@ import numpy as np
 import sys
 import seaborn as sns
 from plotly.subplots import make_subplots
+import plotly.express as px
 
 def page():
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -32,25 +33,23 @@ def page():
     still analzye tracks ranging for more than 20 years, which is still a long timespan.")
 
     df = data.track_artist_album_df
-   
-    fig, ax = plt.subplots(figsize=(7, 3))
-    ax.hist(df["release_year"], bins=12, density=True)
-    ax.set_xlabel("release year")
-    ax.set_ylabel("track density")
-    st.pyplot(fig)
+    
+    df = df[df['release_year'] > 1920]
+    fig = px.histogram(df, "release_year", nbins=30, title = "Number of Songs Released in Each Year in the Dataset")
+    st.plotly_chart(fig)
 
-    st.subheader("Data Quality")
+    # st.subheader("Data Quality")
 
-    st.markdown("**Completeness**")
-    st.write("The dataset is relatively complete, as this dataset is directly retrieved from the Spotify \
-    API. Although we perform some sampling and cleaning so that the application can successfully run, all rows \
-    have complete data and does not interfere with our analysis.")
+    # st.markdown("**Completeness**")
+    # st.write("The dataset is relatively complete, as this dataset is directly retrieved from the Spotify \
+    # API. Although we perform some sampling and cleaning so that the application can successfully run, all rows \
+    # have complete data and does not interfere with our analysis.")
 
-    st.markdown("**Coherency**")
-    st.write("...")
+    # st.markdown("**Coherency**")
+    # st.write("...")
 
-    st.markdown("**Corretness**")
-    st.write("...")
+    # st.markdown("**Corretness**")
+    # st.write("...")
 
-    st.markdown("**Accountability**")
-    st.write("...")
+    # st.markdown("**Accountability**")
+    # st.write("...")

@@ -97,7 +97,7 @@ def page():
         st.session_state['start_track_i'] = 0
     
     with st.container():
-        col1, col2, col3, col4, col5 = st.columns([3, 3, 1, 3, 3])
+        col1, col2, col3 = st.columns([2,1,2])
         if st.button("Recommend More Songs"):
             if st.session_state['start_track_i'] < len(tracks):
                 st.session_state['start_track_i'] += tracks_per_page
@@ -113,27 +113,29 @@ def page():
                             track,
                             height=400,
                         )
-            
-                    with col2:
-                        df = pd.DataFrame(dict(
+                        with st.expander("See more details"):
+                            df = pd.DataFrame(dict(
                             r=audio[:5],
                             theta=audio_feats[:5]))
-                        fig = px.line_polar(df, r='r', theta='theta', line_close=True)
-                        fig.update_layout(height=400, width=340)
-                        st.plotly_chart(fig)
+                            fig = px.line_polar(df, r='r', theta='theta', line_close=True)
+                            fig.update_layout(height=400, width=340)
+                            st.plotly_chart(fig)
+            
+
                 else:
-                    with col4:
+                    with col3:
                         components.html(
                             track,
                             height=400,
                         )
-                    with col5:
-                        df = pd.DataFrame(dict(
-                            r=audio[:5],
-                            theta=audio_feats[:5]))
-                        fig = px.line_polar(df, r='r', theta='theta', line_close=True)
-                        fig.update_layout(height=400, width=340)
-                        st.plotly_chart(fig)
+                        with st.expander("See more details"):
+                            df = pd.DataFrame(dict(
+                                r=audio[:5],
+                                theta=audio_feats[:5]))
+                            fig = px.line_polar(df, r='r', theta='theta', line_close=True)
+                            fig.update_layout(height=400, width=340)
+                            st.plotly_chart(fig)
+
         else:
             st.write("No songs left to recommend")
 
