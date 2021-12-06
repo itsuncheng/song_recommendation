@@ -13,7 +13,7 @@ def page():
     # TODO: Popularity Page
     st.title("What's Popping in the World and Why?")
     st.write("As music becomes integral in people's life, \
-    the music industry has grown to an exceptional level to satify people's demand. As more and more music tracks are \
+    the music industry has grown to an exceptional level to satisfy people's demand. As more and more music tracks are \
     being produced, some tracks are more popular than others by comparing the number of views. \
     For example, the track \"Love Yourself\" by Justin Bieber is much more popular than the track \
     \"New York City\" by Owl City. However, have you ever wondered what factors affect this difference in \

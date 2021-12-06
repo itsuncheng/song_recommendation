@@ -28,7 +28,7 @@ def page():
     st.markdown(content1,unsafe_allow_html=True)
     
     content2 = "<p style='color:Black; font-size: 20px;'>As data scientists and music lovers, our group is excited to perform some analysis over music. \
-    We used the publicly online to answer several reseach questions related to different dimensions of music data. We invite \
+    We used a publicly online dataset from Kaggle to answer several reseach questions related to different dimensions of music data. We invite \
     you to explore what's popping in the music world and discover your music taste!"
     st.markdown(content2,unsafe_allow_html=True)
     st.markdown("Dataset: [Spotify and Genius Track Dataset](https://www.kaggle.com/saurabhshahane/spotgen-music-dataset)")
