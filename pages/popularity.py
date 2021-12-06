@@ -24,7 +24,7 @@ def page():
     In this dashboard we present different factors as well as their corresponding change with popularity. We \
     focus on time, audio features, and artists.")
     
-    st.header("Genre")
+    st.header("Genres")
     genre_options = st.multiselect('Which genres would you like to select',
     genre_names, ["Pop", "Hip Hop", "K-pop"])
 
@@ -37,6 +37,27 @@ def page():
     fig.update_layout(title_text="Popularity of Genres throughout Time")
     st.plotly_chart(fig, use_container_width=True)
 
+
+    st.header("Artists")
+    
+    
+    artists_data = data.artists_data
+    track_artist_album = data.track_artist_album_df
+
+    track_artist_album["artists_id"] = track_artist_album["artists_id"].apply(lambda x: x.split(",")[0].replace("'","").replace("[","").replace("]",""))
+
+    df = pd.merge(track_artist_album, artists_data, left_on='artists_id', right_on='id', how='left').drop('artists_id', axis=1)
+    df = df[["name", "release_year", "popularity"]]
+    df = df.groupby(['name','release_year'])['popularity'].mean().reset_index()
+
+    all_artists = list(df["name"].unique())
+
+    selected_artists = st.multiselect('Which artists would you like to select',
+    all_artists, ["Adele", "One Direction", "Justin Timberlake"])
+
+    fig = px.line(df[df["name"].isin(selected_artists)], x="release_year", y="popularity", color="name")
+    fig.update_layout(title_text="Popularity of Artists throughout Time")
+    st.plotly_chart(fig, use_container_width=True)
 
 
 

@@ -10,6 +10,7 @@ import sys
 import seaborn as sns
 from plotly.subplots import make_subplots
 import plotly.express as px
+import plotly.graph_objects as go
 
 def page():
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -37,6 +38,26 @@ def page():
     df = df[df['release_year'] > 1920]
     fig = px.histogram(df, "release_year", nbins=30, title = "Number of Songs Released in Each Year in the Dataset")
     st.plotly_chart(fig)
+
+    genre = data.track_with_genre_df
+    fig = make_subplots(rows=1, cols=1,specs=[[{"type": "pie"}]])
+    #data for pie
+    pie_data = genre.groupby('genres')['id'].count()
+
+    fig.add_trace(go.Pie(labels = pie_data.index,
+                            values = pie_data.values,
+                            hole = 0.4,
+                            legendgroup = 'grp1',
+                            showlegend=True),
+                row = 1, col = 1)
+    
+    fig.update_traces(hoverinfo = 'label+percent',
+                        textinfo = 'value+percent',
+                        textfont_color = 'white',
+                        marker = dict(line=dict(color='white', width=1)),
+                        row = 1, col = 1)   
+    
+    st.write(fig)
 
     # st.subheader("Data Quality")
 
