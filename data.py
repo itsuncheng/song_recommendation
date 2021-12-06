@@ -47,14 +47,14 @@ def load_track_artist_album():
 
 @st.cache(allow_output_mutation=True)
 def load_data():
-    data_dir = "data/SpotGenTrack/Data Sources/"
+    # data_dir = "data/SpotGenTrack/Data Sources/"
 
-    global albums_data
-    global artists_data
-    global tracks_data
-    albums_data = pd.read_csv(data_dir+"spotify_albums.csv")
-    artists_data = pd.read_csv(data_dir+"spotify_artists.csv")
-    tracks_data = pd.read_csv(data_dir+"spotify_tracks.csv")
+    # global albums_data
+    # global artists_data
+    # global tracks_data
+    # albums_data = pd.read_csv(data_dir+"spotify_albums.csv")
+    # artists_data = pd.read_csv(data_dir+"spotify_artists.csv")
+    # tracks_data = pd.read_csv(data_dir+"spotify_tracks.csv")
 
     load_genre_audio()
     load_track_artist_album()

@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import seaborn as sns
+import plotly.express as px
+
+genre_names = ['Anime', 'Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 
 def page():
     # TODO: Popularity Page
@@ -21,6 +24,23 @@ def page():
     In this dashboard we present different factors as well as their corresponding change with popularity. We \
     focus on time, audio features, and artists.")
     
+    st.header("Genre")
+    genre_options = st.multiselect('Which genres would you like to select',
+    genre_names, ["Pop", "Hip Hop", "K-pop"])
+
+    lowered_genre_options = [f.lower() for f in genre_options]
+    exploded_track_df = data.exploded_track_df
+    filtered_df = exploded_track_df[exploded_track_df["genres"].isin(lowered_genre_options)]
+    grouped_df = filtered_df.groupby(["genres", "release_year"]).agg({"popularity" : "mean"})
+    grouped_df = grouped_df.add_suffix('').reset_index()
+    fig = px.line(grouped_df, x="release_year", y="popularity", color='genres')
+    fig.update_layout(title_text="Popularity of Genres throughout Time")
+    st.plotly_chart(fig, use_container_width=True)
+
+
+
+
+    st.header("Audio Features")
     # df = pd.read_csv("../data/trackArtistAlbum.csv")
     df = data.track_artist_album_df
 
@@ -53,10 +73,10 @@ def page():
         df2 = df2.append(df_group,ignore_index = True)
         
     # x-axis label to dense
-    chart = alt.Chart(df2).mark_circle(color = 'red', opacity=0.55).encode(
-        x='release_year:N', y='popularity', color=option,tooltip=[option, 'popularity', 'release_year']
-        ).properties(title="Change in popularity with respect to " + option + " by release years")
-    st.altair_chart(chart, use_container_width=True)
+    # chart = alt.Chart(df2).mark_circle(color = 'red', opacity=0.55).encode(
+    #     x='release_year:N', y='popularity', color=option,tooltip=[option, 'popularity', 'release_year']
+    #     ).properties(title="Change in popularity with respect to " + option + " by release years")
+    # st.altair_chart(chart, use_container_width=True)
     # Data too sparse
     chart = alt.Chart(df2).mark_circle(color = 'red', opacity=0.55).encode(
         x=alt.X('release_year:Q',axis=alt.Axis(tickCount=len(yearArr)/10, grid=False),scale=alt.Scale(zero=False)), y='popularity', color=option,tooltip=[option, 'popularity', 'release_year']
