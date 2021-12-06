@@ -21,7 +21,7 @@ def generate_wordcloud(lyrics:List):
   """lyrics [List]: list of lyrics of all the songs
      return: A wordcloud object"""
   long_string = ",".join(lyrics)
-  wc = WordCloud(background_color="white", max_words=75, contour_width=3, contour_color='steelblue')
+  wc = WordCloud(background_color="white", max_words=75, contour_width=3, contour_color='steelblue',width=800, height=400)
   wc.generate(long_string)
   return wc
 
@@ -29,10 +29,11 @@ def plot_sentiment_distribution():
     df = pd.DataFrame(columns=('genre','Positive','Neutral',"Negative"))
     for i,genre in enumerate(lyric_sentiment):
         df.loc[i]=(genre, *lyric_sentiment[genre]["sentiment_distribution"])
-    axs = df.plot.barh(x='genre', stacked=True, )
+    axs = df.plot.barh(x='genre', stacked=True )
     axs.set_title("Lyrics Sentiment Distribution among different Genres")
     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
     plt.show()
+    st.pyplot(plt.gcf())
 
 def get_lyrics(id):
     lyric = songs_with_lyrics[songs_with_lyrics["id"] == id]["lyrics"].item()
@@ -64,7 +65,7 @@ def format_lyric_with_sentiments(lyrics, sentiments):
         else:
             annotation = "Neutral"
             color ="rgb(255,255,255)"
-        ret.append((lyric, annotation, color))
+        ret.append((lyric+"\n", annotation, color))
     return ret
 
 
@@ -94,26 +95,30 @@ def page():
     genre, we focus on the following research question: ")
     genre = st.selectbox(label="Select One Genre",
                          options=genre_names)
-    generate_wordcloud().to_image()
 
+    st.subheader("Words in {} Genre".format(genre))
+    st.image(generate_wordcloud(cleaned_lyric[genre]).to_array())
+
+    st.subheader("The distribution of sentiment scores over all genres")
     plot_sentiment_distribution()
 
     pos_sent, neg_sent = get_sentiment_sentences(genre)
     with st.container():
         col1, col2 = st.columns(2)
         with col1:
-            st.subheader("10 typical strong positive lyric sentences in the genre")
-            st.code("\n".join(pos_sent), langauge=None)
+
+            st.subheader("10 typical strong positive lyric sentences in {} genre".format(genre))
+            st.code("\n".join([item[0] for item in pos_sent]), language=None)
         with col2:
-            st.subheader("10 typical strong negative lyric sentences in the genre")
-            st.code("\n".join(neg_sent), language=None)
+            st.subheader("10 typical strong negative lyric sentences in the {} genre".format(genre))
+            st.code("\n".join(item[0] for item in neg_sent), language=None)
 
     clicked = st.button("Surprise me with a random song!")
     if clicked:
         songname, wc, lyrics, sentiments = get_random_song()
         st.write("Song name: {}".format(songname))
         st.subheader("Word Cloud of {}".format(songname))
-        wc.to_image()
+        st.image(wc.to_array())
         st.subheader("Sentiments of {}'s lyrics".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
 
