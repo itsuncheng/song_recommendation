@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 import random
 from annotated_text import annotated_text
 
-genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
+genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 lyric_sentiment= data.lyric_sentiments
 lyric_knn = data.lyric_knn
 cleaned_lyric = data.cleaned_lyric
@@ -27,7 +27,7 @@ def generate_wordcloud(lyrics:List):
 
 def plot_sentiment_distribution():
     df = pd.DataFrame(columns=('genre','Positive','Neutral',"Negative"))
-    for i,genre in enumerate(lyric_sentiment):
+    for i,genre in enumerate(genre_names):
         df.loc[i]=(genre, *lyric_sentiment[genre]["sentiment_distribution"])
     axs = df.plot.barh(x='genre', stacked=True )
     axs.set_title("Lyrics Sentiment Distribution among different Genres")
@@ -46,10 +46,15 @@ def get_sentiment_sentences(genre:str)->Tuple:
 def get_random_song():
     """Randomly select a song, retrun the word cloud corresponds to its lyrics and sentiments of each sentence"""
     song_name = random.choice(songs)
+    wc, lyrics, sentiments = get_song_info(song_name)
+    return song_name,wc, lyrics, sentiments
+
+def get_song_info(song_name):
     lyrics = [item[0] for item in song_sentiment[song_name]]
     wc = generate_wordcloud(lyrics)
     sentiments = [item[1] for item in song_sentiment[song_name]]
-    return song_name, wc, lyrics, sentiments
+    return wc, lyrics, sentiments
+
 
 def format_lyric_with_sentiments(lyrics, sentiments):
     ret =[]
@@ -75,6 +80,8 @@ def get_lyrics(id, N=10):
     lyric = songs_with_lyrics[songs_with_lyrics["id"] == id].iloc[0]["lyrics"]
     return "\n".join(lyric.split("\r\n")[:N])
 
+
+
 def get_neighbors(lyric):
     pass
     #ToDO: Do we really need this since the result does not make much sense
@@ -82,8 +89,13 @@ def get_neighbors(lyric):
 
 
 def page():
-    title = "Visualize and Analyze sentiment of the Lyrics in different Genres"
+    title = "Visualize word distribution and Analyze sentiment of the Lyrics in different Genres"
     st.title(title)
+    st.subheader("Lets first look at the sentiment distribution over all the genres")
+
+    plot_sentiment_distribution()
+
+
     st.write("The growth of music industry also implies the \
     growth in number of music genres, as more and more diverse tracks are being produced. The most common \
     genres include pop, rock, jazz, and etc that have been popular for a long time; however, genres like \
@@ -93,14 +105,15 @@ def page():
     For instance, we might see the words \"love\" and \"dancing\" appear in the lyrics of dance pop more \
     frequently than other genres. To test our hypothesis and further understand the type of words used in each \
     genre, we focus on the following research question: ")
+
+
     genre = st.selectbox(label="Select One Genre",
                          options=genre_names)
 
     st.subheader("Words in {} Genre".format(genre))
     st.image(generate_wordcloud(cleaned_lyric[genre]).to_array())
 
-    st.subheader("The distribution of sentiment scores over all genres")
-    plot_sentiment_distribution()
+
 
     pos_sent, neg_sent = get_sentiment_sentences(genre)
     with st.container():
@@ -112,15 +125,34 @@ def page():
         with col2:
             st.subheader("10 typical strong negative lyric sentences in the {} genre".format(genre))
             st.code("\n".join(item[0] for item in neg_sent), language=None)
-
+    songname = st.selectbox(label="Select a song!", options=songs)
+    st.write("OR")
     clicked = st.button("Surprise me with a random song!")
     if clicked:
         songname, wc, lyrics, sentiments = get_random_song()
         st.write("Song name: {}".format(songname))
         st.subheader("Word Cloud of {}".format(songname))
         st.image(wc.to_array())
+        st.write("Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
+                 " of sentiment is proportional to "
+                 "the color strength")
+
         st.subheader("Sentiments of {}'s lyrics".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
+
+    elif songname:
+        wc,lyrics,sentiments = get_song_info(songname)
+        st.write("Song name: {}".format(songname))
+        st.subheader("Word Cloud of {}".format(songname))
+
+        st.image(wc.to_array())
+        st.write(
+            "Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
+            " of sentiment is proportional to "
+            "the color strength")
+        st.subheader("Sentiments of {}'s lyrics".format(songname))
+        annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
+
 
 
 
