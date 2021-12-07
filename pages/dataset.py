@@ -60,7 +60,7 @@ def page():
     st.subheader("Song Release Year Distribution")
     st.write("Below shows the distribution of songs in release year. From the histogram, we can see \
     that most songs are released in the 21st century on Spotify. This is expected since technology is not \
-    advanced back in the 21st century and many songs are not well-documented compared to modern time. \
+    advanced before the 21st century and many songs are not well-documented compared to modern time. \
     Though the release time is not balanced enough, this does not interfere with our analysis since we can \
     still analzye songs ranging for more than 20 years, which is still a long timespan.")
     
