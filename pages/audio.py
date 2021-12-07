@@ -35,9 +35,9 @@ def plot_genre_distribution(selected_genres):
             x_axis_str += str(i+1)
             y_axis_str += str(i+1)
         fig['layout'][x_axis_str]['title'] = audio_feat_names[i]
-        fig['layout'][y_axis_str]['title'] = "Value"
+        fig['layout'][y_axis_str]['title'] = "Density"
 
-    fig.update_layout(height=1200, width=800, title_text="Title")
+    fig.update_layout(height=1200, width=800, title_text="Probability Density of Audio Feature in Different Genres")
     st.plotly_chart(fig, use_container_width=True)
 
 def page():
