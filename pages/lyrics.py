@@ -32,7 +32,6 @@ def plot_sentiment_distribution():
     axs = df.plot.barh(x='genre', stacked=True )
     axs.set_title("Lyrics Sentiment Distribution among different Genres")
     plt.legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-    plt.show()
     st.pyplot(plt.gcf())
 
 def get_lyrics(id):

@@ -10,21 +10,25 @@ import sys
 import seaborn as sns
 import plotly.express as px
 
-genre_names = ['Anime', 'Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
+genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 
 def page():
     # TODO: Popularity Page
-    st.title("What's Popping in the World and Why?")
+    st.title("What's Trending in the World and Why?")
     st.write("As music becomes integral in people's life, \
     the music industry has grown to an exceptional level to satisfy people's demand. As more and more music tracks are \
     being produced, some tracks are more popular than others by comparing the number of views. \
-    For example, the track \"Love Yourself\" by Justin Bieber is much more popular than the track \
+    For example, the song \"Love Yourself\" by Justin Bieber is much more popular than the song \
     \"New York City\" by Owl City. However, have you ever wondered what factors affect this difference in \
     popularity? In this section, we would like to investigate the factors that affect a track's popularity. \
     In this dashboard we present different factors as well as their corresponding change with popularity. We \
     focus on time, audio features, and artists.")
     
     st.header("Genres")
+    st.write("Is a particular genre more popular than another? How does people's taste change over time? In this section,\
+            you will be able to explore that with the visualization below. Feel free to add genres you would like to learn more about\
+            and see how its popularity evolves over time!")
+
     genre_options = st.multiselect('Which genres would you like to select',
     genre_names, ["Pop", "Hip Hop", "K-pop"])
 
@@ -37,32 +41,28 @@ def page():
     fig.update_layout(title_text="Popularity of Genres throughout Time")
     st.plotly_chart(fig, use_container_width=True)
 
+    st.header("Top 10 Songs and Artists")
+    st.write("""Who are the artists of the year? Which songs top the chart? We displayed the top artists \
+              and top songs below from each year. Check out if your favorite artists/songs made their way to the Spotify TOP 10!""")
 
-    st.header("Artists")
+    year_selected = st.slider("Select the year", 1990, 2019, 2019)
+    top_10_songs = filtered_df[filtered_df["release_year"]==year_selected].sort_values(by=['popularity'], ascending=False)["name"].unique()[:10]
+    top_10_artists = filtered_df[filtered_df["release_year"]==year_selected].sort_values(by=['popularity'], ascending=False)["artists_name"].unique()[:10]
     
-    
-    artists_data = data.artists_data
-    track_artist_album = data.track_artist_album_df
-
-    track_artist_album["artists_id"] = track_artist_album["artists_id"].apply(lambda x: x.split(",")[0].replace("'","").replace("[","").replace("]",""))
-
-    df = pd.merge(track_artist_album, artists_data, left_on='artists_id', right_on='id', how='left').drop('artists_id', axis=1)
-    df = df[["name", "release_year", "popularity"]]
-    df = df.groupby(['name','release_year'])['popularity'].mean().reset_index()
-
-    all_artists = list(df["name"].unique())
-
-    selected_artists = st.multiselect('Which artists would you like to select',
-    all_artists, ["Adele", "One Direction", "Justin Timberlake"])
-
-    fig = px.line(df[df["name"].isin(selected_artists)], x="release_year", y="popularity", color="name")
-    fig.update_layout(title_text="Popularity of Artists throughout Time")
-    st.plotly_chart(fig, use_container_width=True)
+    d = {'Top Songs': top_10_songs, 'Top Artists': top_10_artists}
+    df = pd.DataFrame(data=d)
+    df.index = list(range(1, 11))
+    st.table(df)
 
 
 
     st.header("Audio Features")
-    # df = pd.read_csv("../data/trackArtistAlbum.csv")
+    st.write("Spotify measures the audio characteristics of a song by audio features. These audio features describe the differences \
+            in songs. One may want to ask the question: can the audio features be tied to the popularity of a song and do artists \
+            tend to release certain types of songs over the years? You can use the three plots below to help answer these questions.\
+            We will discuss audio features more in the audio feature analysis tab. If you want to learn more about what each audio feature \
+            means, please go to the audio feature analysis tab and scroll down to the bottom!")
+    st.markdown("Audio features we will be exploring here are acousticness, danceability, duration_sec, energy, instrumentalness, key, liveness, loudness, speechiness, tempo, and time_signature. Time_signature is a measure of beats per minute of tracks.")
     df = data.track_artist_album_df
 
 
