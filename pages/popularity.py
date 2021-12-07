@@ -64,6 +64,7 @@ def page():
     st.header("Audio Features")
     # df = pd.read_csv("../data/trackArtistAlbum.csv")
     df = data.track_artist_album_df
+    st.markdown("Audio features we will be exploring here are acousticness, danceability, duration_sec, energy, instrumentalness, key, liveness, loudness, speechiness, tempo, and time_signature. Time_signature is a measure of beats per minute of tracks.")
 
 
     option = st.selectbox('Which audio feature would you like to explore?',
