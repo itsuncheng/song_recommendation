@@ -75,7 +75,7 @@ def format_lyric_with_sentiments(lyrics, sentiments):
 
 
 def get_lyrics(id, N=10):
-    """Get lyrics of a song given its unqiue id, return first N rows of the lyric"""
+    """Get lyrics of a song given its unique id, return first N rows of the lyric"""
     lyric = songs_with_lyrics[songs_with_lyrics["id"] == id].iloc[0]["lyrics"]
     return "\n".join(lyric.split("\r\n")[:N])
 
@@ -105,11 +105,12 @@ def page():
     frequently than other genres. To test our hypothesis and further understand the type of words used in each \
     genre, we focus on the following research question: ")
 
-
+    st.markdown("## Display words from your favorite genre!")
     genre = st.selectbox(label="Select One Genre",
                          options=genre_names)
-
-    st.subheader("Words in {} Genre".format(genre))
+    
+    st.subheader("*Words in {} Genre*".format(genre))
+    st.markdown("##")
     st.image(generate_wordcloud(cleaned_lyric[genre]).to_array())
 
 
@@ -119,34 +120,39 @@ def page():
         col1, col2 = st.columns(2)
         with col1:
 
-            st.subheader("10 typical strong positive lyric sentences in {} genre".format(genre))
+            st.subheader("*10 typical strong positive lyric sentences in {} genre*".format(genre))
             st.code("\n".join([item[0] for item in pos_sent]), language=None)
         with col2:
-            st.subheader("10 typical strong negative lyric sentences in the {} genre".format(genre))
+            st.subheader("*10 typical strong negative lyric sentences in the {} genre*".format(genre))
             st.code("\n".join(item[0] for item in neg_sent), language=None)
+
+
+
+    st.markdown("##")
+    st.markdown("## Detailed analysis of your favorite song or a song hand-picked by us!")
     songname = st.selectbox(label="Select a song!", options=songs)
     st.write("OR")
     clicked = st.button("Surprise me with a random song!")
     if clicked:
         songname, wc, lyrics, sentiments = get_random_song()
         st.write("Song name: {}".format(songname))
-        st.subheader("Word Cloud of {}".format(songname))
-        st.image(wc.to_array())
+        # st.subheader("Word Cloud of {}".format(songname))
+        # st.image(wc.to_array())
         st.write("Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
                  " of sentiment is proportional to "
                  "the color strength")
 
-        st.subheader("Sentiments of {}'s lyrics".format(songname))
+        st.subheader("*Sentiments of {}'s lyrics*".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
 
     elif songname:
         wc,lyrics,sentiments = get_song_info(songname)
-        st.write("Song name: {}".format(songname))
-        st.subheader("Word Cloud of {}".format(songname))
+        st.write("**Song name:** {}".format(songname))
+        # st.subheader("Word Cloud of {}".format(songname))
 
-        st.image(wc.to_array())
+        # st.image(wc.to_array())
         st.write(
-            "Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
+            "Sentences with positive sentiments are colored in green, negative ones are marked in red. The strength"
             " of sentiment is proportional to "
             "the color strength")
         st.subheader("Sentiments of {}'s lyrics".format(songname))
