@@ -62,9 +62,8 @@ def page():
             tend to release certain types of songs over the years? You can use the three plots below to help answer these questions.\
             We will discuss audio features more in the audio feature analysis tab. If you want to learn more about what each audio feature \
             means, please go to the audio feature analysis tab and scroll down to the bottom!")
-    # df = pd.read_csv("../data/trackArtistAlbum.csv")
-    df = data.track_artist_album_df
     st.markdown("Audio features we will be exploring here are acousticness, danceability, duration_sec, energy, instrumentalness, key, liveness, loudness, speechiness, tempo, and time_signature. Time_signature is a measure of beats per minute of tracks.")
+    df = data.track_artist_album_df
 
 
     option = st.selectbox('Which audio feature would you like to explore?',
