@@ -34,6 +34,8 @@ def page():
     st.markdown("Dataset: [Spotify and Genius Track Dataset](https://www.kaggle.com/saurabhshahane/spotgen-music-dataset)")
 
 
+    st.markdown("Here is the link to our [Github](https://github.com/itsuncheng/IDS_Final_Project/) and [video demo](https://youtu.be/z_6oZTOm3wM)")
+
 
 
 
