@@ -46,10 +46,15 @@ def get_sentiment_sentences(genre:str)->Tuple:
 def get_random_song():
     """Randomly select a song, retrun the word cloud corresponds to its lyrics and sentiments of each sentence"""
     song_name = random.choice(songs)
+    wc, lyrics, sentiments = get_song_info(song_name)
+    return song_name,wc, lyrics, sentiments
+
+def get_song_info(song_name):
     lyrics = [item[0] for item in song_sentiment[song_name]]
     wc = generate_wordcloud(lyrics)
     sentiments = [item[1] for item in song_sentiment[song_name]]
-    return song_name, wc, lyrics, sentiments
+    return wc, lyrics, sentiments
+
 
 def format_lyric_with_sentiments(lyrics, sentiments):
     ret =[]
@@ -75,6 +80,8 @@ def get_lyrics(id, N=10):
     lyric = songs_with_lyrics[songs_with_lyrics["id"] == id].iloc[0]["lyrics"]
     return "\n".join(lyric.split("\r\n")[:N])
 
+
+
 def get_neighbors(lyric):
     pass
     #ToDO: Do we really need this since the result does not make much sense
@@ -82,8 +89,13 @@ def get_neighbors(lyric):
 
 
 def page():
-    title = "Visualize and Analyze sentiment of the Lyrics in different Genres"
+    title = "Visualize word distribution and Analyze sentiment of the Lyrics in different Genres"
     st.title(title)
+    st.subheader("Lets first look at the sentiment distribution over all the genres")
+
+    plot_sentiment_distribution()
+
+
     st.write("The growth of music industry also implies the \
     growth in number of music genres, as more and more diverse tracks are being produced. The most common \
     genres include pop, rock, jazz, and etc that have been popular for a long time; however, genres like \
@@ -93,14 +105,15 @@ def page():
     For instance, we might see the words \"love\" and \"dancing\" appear in the lyrics of dance pop more \
     frequently than other genres. To test our hypothesis and further understand the type of words used in each \
     genre, we focus on the following research question: ")
+
+
     genre = st.selectbox(label="Select One Genre",
                          options=genre_names)
 
     st.subheader("Words in {} Genre".format(genre))
     st.image(generate_wordcloud(cleaned_lyric[genre]).to_array())
 
-    st.subheader("The distribution of sentiment scores over all genres")
-    plot_sentiment_distribution()
+
 
     pos_sent, neg_sent = get_sentiment_sentences(genre)
     with st.container():
@@ -112,7 +125,8 @@ def page():
         with col2:
             st.subheader("10 typical strong negative lyric sentences in the {} genre".format(genre))
             st.code("\n".join(item[0] for item in neg_sent), language=None)
-
+    songname = st.selectbox(label="Select a song!", options=songs)
+    st.write("OR")
     clicked = st.button("Surprise me with a random song!")
     if clicked:
         songname, wc, lyrics, sentiments = get_random_song()
@@ -121,6 +135,15 @@ def page():
         st.image(wc.to_array())
         st.subheader("Sentiments of {}'s lyrics".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
+
+    elif songname:
+        wc,lyrics,sentiments = get_song_info(songname)
+        st.write("Song name: {}".format(songname))
+        st.subheader("Word Cloud of {}".format(songname))
+        st.image(wc.to_array())
+        st.subheader("Sentiments of {}'s lyrics".format(songname))
+        annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
+
 
 
 
