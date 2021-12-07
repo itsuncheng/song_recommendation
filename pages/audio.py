@@ -42,7 +42,7 @@ def plot_genre_distribution(selected_genres):
 
 def page():
     st.title('Why Do Genres Sound Different?')
-    st.write("Have you ever wondered why \"Drivers License\" by Olivia Rodringo sound so differently from \"Savage Love\" by Jason Derulo?\
+    st.write("Have you ever wondered why \"Drivers License\" by Olivia Rodringo sounds so differently from \"Savage Love\" by Jason Derulo?\
     In this section, we focus on audio features, spanning from accousticness, danceability, \
     duration, energy, instrumentalness, liveness, temp, and valence, which together characterize what a song sounds like. After diving into word lyrics across \
     different music genres, we start wondering how other audio features differ in different music genres. \
