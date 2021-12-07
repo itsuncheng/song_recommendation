@@ -42,12 +42,13 @@ def plot_genre_distribution(selected_genres):
 
 def page():
     st.title('Why Do Genres Sound Different?')
-
-    st.write("In this section, we focus on audio features, spanning from accousticness, danceability, \
-    duration, energy, instrumentalness, liveness, loudness, speechniness, temp, and valence. After diving into word lyrics across \
+    st.write("Have you ever wondered why \"Drivers License\" by Olivia Rodringo sound so differently from \"Savage Love\" by Jason Derulo?\
+    In this section, we focus on audio features, spanning from accousticness, danceability, \
+    duration, energy, instrumentalness, liveness, temp, and valence, which together characterize what a song sounds like. After diving into word lyrics across \
     different music genres, we start wondering how other audio features differ in different music genres. \
-    Again, intution tells us that certain genres have higher audio features than others; for example, \
-    the audio feature danceability would have higher density in k-pop than in jazz.")
+    Again, intuition tells us that certain genres have higher audio features than others; for example, \
+    the audio feature danceability would have higher density in k-pop than in jazz. Hopefully this section can give you more insights into \
+    which type of music/genre to vibe to at a Friday night party or a Saturday afternoon coffee break!")
 
 
     selected_genres = st.multiselect(
