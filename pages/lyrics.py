@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 import random
 from annotated_text import annotated_text
 
-genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
+genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 lyric_sentiment= data.lyric_sentiments
 lyric_knn = data.lyric_knn
 cleaned_lyric = data.cleaned_lyric
@@ -27,7 +27,7 @@ def generate_wordcloud(lyrics:List):
 
 def plot_sentiment_distribution():
     df = pd.DataFrame(columns=('genre','Positive','Neutral',"Negative"))
-    for i,genre in enumerate(lyric_sentiment):
+    for i,genre in enumerate(genre_names):
         df.loc[i]=(genre, *lyric_sentiment[genre]["sentiment_distribution"])
     axs = df.plot.barh(x='genre', stacked=True )
     axs.set_title("Lyrics Sentiment Distribution among different Genres")
@@ -133,6 +133,10 @@ def page():
         st.write("Song name: {}".format(songname))
         st.subheader("Word Cloud of {}".format(songname))
         st.image(wc.to_array())
+        st.write("Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
+                 " of sentiment is proportional to "
+                 "the color strength")
+
         st.subheader("Sentiments of {}'s lyrics".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
 
@@ -140,7 +144,12 @@ def page():
         wc,lyrics,sentiments = get_song_info(songname)
         st.write("Song name: {}".format(songname))
         st.subheader("Word Cloud of {}".format(songname))
+
         st.image(wc.to_array())
+        st.write(
+            "Sentences with positive sentiments are colored in green, nagative ones are marked in red. The strength"
+            " of sentiment is proportional to "
+            "the color strength")
         st.subheader("Sentiments of {}'s lyrics".format(songname))
         annotated_text(*format_lyric_with_sentiments(lyrics, sentiments))
 
