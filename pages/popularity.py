@@ -21,8 +21,7 @@ def page():
     For example, the song \"Love Yourself\" by Justin Bieber is much more popular than the song \
     \"New York City\" by Owl City. However, have you ever wondered what factors affect this difference in \
     popularity? In this section, we would like to investigate the factors that affect a track's popularity. \
-    In this dashboard we present different factors as well as their corresponding change with popularity. We \
-    focus on time, audio features, and artists.")
+    We will focus on different genres and audio features, as well as their relationship with track's released year.")
     
     st.header("Genres")
     st.write("Is a particular genre more popular than another? How does people's taste change over time? In this section,\
