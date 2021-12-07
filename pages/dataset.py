@@ -26,19 +26,17 @@ def page():
     dataset to perform analysis. We leverage this sampled dataset for our project to conduct data analyses \
     and showcase this Streamlit application.")
 
-    st.subheader("Dataset Overview")
-    st.write("Below shows the distribution of tracks in release year. From the histogram, we can see \
-    that most tracks are released in the 21st century on Spotify. This is expected since technology is not \
-    advanced back in the 21st century and many tracks are not well-documented compared to modern time. \
-    Though the release time is not balanced enough, this does not interfere with our analysis since we can \
-    still analzye tracks ranging for more than 20 years, which is still a long timespan.")
-
     df = data.track_artist_album_df
-    
     df = df[df['release_year'] > 1920]
-    fig = px.histogram(df, "release_year", nbins=30, title = "Number of Songs Released in Each Year in the Dataset")
-    st.plotly_chart(fig)
 
+    st.subheader("Basic Information")
+    st.write("Below summarizes the key attributes of our sampled dataset.")
+    info = [ ('101938'), ('75503'), ('40734'), ('11'), ('9'), ('4 min 7 sec')]
+    new_df = pd.DataFrame(info, columns = ['Value'], index=["# tracks", "# albums", "# artists", "# genres", "# audio features", "average track duration"])
+    st.table(new_df)
+
+    st.subheader("Genre Distribution")
+    st.write("The following plot shows all the genres from our selected dataset.")
     genre = data.track_with_genre_df
     fig = make_subplots(rows=1, cols=1,specs=[[{"type": "pie"}]])
     #data for pie
@@ -58,6 +56,23 @@ def page():
                         row = 1, col = 1)   
     
     st.write(fig)
+
+    st.subheader("Track Release Year Distribution")
+    st.write("Below shows the distribution of tracks in release year. From the histogram, we can see \
+    that most tracks are released in the 21st century on Spotify. This is expected since technology is not \
+    advanced back in the 21st century and many tracks are not well-documented compared to modern time. \
+    Though the release time is not balanced enough, this does not interfere with our analysis since we can \
+    still analzye tracks ranging for more than 20 years, which is still a long timespan.")
+    
+    fig = px.histogram(df, "release_year", nbins=30, title = "Number of Songs Released in Each Year in the Dataset")
+    st.plotly_chart(fig)
+
+    st.subheader("Track Duration Distribution")
+    st.write("Below shows the distribution of track duration. From the plot, we can see that more \
+    than 90 percent of tracks have duration less than 5 minutes.")
+    df = df.rename(columns={'duration_sec': 'duration'})
+    fig = px.ecdf(df, "duration", title = "Track Duration Distribution")
+    st.plotly_chart(fig)
 
     # st.subheader("Data Quality")
 

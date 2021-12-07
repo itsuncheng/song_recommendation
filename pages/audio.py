@@ -6,7 +6,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objs as go
 
 
-genre_names = ['Anime', 'Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'J-pop', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
+genre_names = ['Dance Pop', 'Electronic', 'Electropop', 'Hip Hop', 'Jazz', 'K-pop', 'Latin', 'Pop', 'Pop Rap', 'R&B', 'Rock']
 
 audio_feat_names = ['Acousticness', 'Danceability', 'Duration_ms',
                 'Energy', 'Instrumentalness', 'Liveness',
@@ -44,7 +44,7 @@ def page():
     st.title('Why Do Genres Sound Different?')
 
     st.write("In this section, we focus on audio features, spanning from accousticness, danceability, \
-    duration, energy, instrumentalness, liveness, temp, and valence. After diving into word lyrics across \
+    duration, energy, instrumentalness, liveness, loudness, speechniness, temp, and valence. After diving into word lyrics across \
     different music genres, we start wondering how other audio features differ in different music genres. \
     Again, intution tells us that certain genres have higher audio features than others; for example, \
     the audio feature danceability would have higher density in k-pop than in jazz.")
