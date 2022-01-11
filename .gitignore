@@ -1,4 +1,5 @@
 .DS_Store
 .vscode/
+.streamlit/
 __pycache__/
 data/.ipynb_checkpoints/
