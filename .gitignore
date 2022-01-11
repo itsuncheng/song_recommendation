@@ -1,5 +1,4 @@
 .DS_Store
 .vscode/
 __pycache__/
-data/.ipynb_checkpoints
-data/SpotGenTrack/
+data/.ipynb_checkpoints/
